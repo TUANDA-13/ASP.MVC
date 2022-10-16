@@ -1,0 +1,70 @@
+﻿@model List<Student>;
+@{
+    ViewData["Title"] = "Home Page";
+    var students = Model;
+    //var cate123 = ViewBag.cate123
+
+    var classes = ViewBag.Class;
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome StudentManager</h1>
+    @using (Html.BeginForm())
+    { 
+            <p>
+                Find by name: @Html.TextBox("searchName")  
+                <div class="form-group">
+                    <label for="Class">Class</label>
+                    <select class="form-control" id="ClassId" name="ClassId">
+                        <option value="0" selected>__all__</option>
+                    @foreach (var Class in classes)
+                    {
+                        @if (@ViewData["ClassId"].ToString() == Class.Id.ToString())
+                        {
+                                        <option value="@Class.Id" selected>@Class.Name</option>
+                        }
+                        else
+                        {
+                                        <option value="@Class.Id">@Class.Name</option>
+                        }
+                    }
+                    </select>
+                </div>
+                <input type="submit" value="Search" class="btn btn-primary"/>
+            </p>
+    }
+    @* <div class="d-flex flex-align-center">
+        <form action="/Student/Search" method="get">
+
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div> *@
+    <table class="table">
+        <thead>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Gender</th>
+        <th>DOB</th>
+        <th>Address</th>
+        <th>Class</th>
+        <th><a href="/Student/Create" class="btn btn-primary">Create</a></th>
+        </thead>
+        <tbody>
+            @foreach (var student in students)
+            {
+                <tr>
+                    <td>@student.Id</td>
+                    <td>@student.Name</td>
+                    <td>@student.Gender</td>
+                    <td>@student.DOB</td>
+                    <td>@student.Address</td>
+                    <td>@student.Class.Name</td>
+                    <td>
+                        <a href="/Student/Update?id=@student.Id" class="btn btn-success">Update</a>
+                        <a href="/Student/Delete?id=@student.Id" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
